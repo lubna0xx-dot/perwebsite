@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Lubna — Data Science Portfolio</title>
+<meta name="description" content="لُبنى — خريجة علم بيانات تبني نماذج تنبؤية ولوحات تحليلية. استعرضي مشاريع تحليل المخزون والتسويق وسلسلة الإمداد.">
+<meta property="og:title" content="Lubna — Data Science Portfolio">
+<meta property="og:description" content="خريجة علم بيانات، أبني نماذج تنبؤية ولوحات تحليلية تُحوّل مجموعات بيانات معقدة إلى رؤى واضحة.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%238B6CF6'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='white' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html{color-scheme:dark;}
+  :root{
+    --bg:#0A0D1C;
+    --bg-2:#0E1226;
+    --elev:#131832;
+    --elev-2:#1B2244;
+    --line:rgba(255,255,255,.09);
+    --line-strong:rgba(255,255,255,.16);
+    --text:#F4F5FC;
+    --text-soft:#A6AEC9;
+    --text-faint:#7C86A8;
+    --violet:#8B6CF6;
+    --blue:#4C8EFF;
+    --teal:#2FE0C8;
+    --grad: linear-gradient(120deg, var(--violet), var(--blue));
+    --radius:16px;
+    --radius-sm:10px;
+    --maxw:1140px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  html[lang="en"] body{font-family:'IBM Plex Sans','IBM Plex Sans Arabic',sans-serif;}
+
+  ::selection{background:var(--violet);color:#fff;}
+
+  h1,h2,h3{
+    font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;
+    font-weight:700;
+    margin:0 0 .4em;
+    letter-spacing:-.015em;
+    color:var(--text);
+  }
+  p{margin:0 0 1em;color:var(--text-soft);}
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace; font-feature-settings:"tnum";}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+    border-radius:8px;
+  }
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px; position:relative; z-index:2;}
+
+  /* NAV — slim top bar */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,28,.78); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; position:relative;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; padding:18px 24px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:9px;
+    font-weight:700; font-size:1.05rem;
+    text-decoration:none; color:var(--text);
+  }
+  .brand .dot{width:8px; height:8px; border-radius:50%; background:var(--grad); display:inline-block;}
+  nav.links{display:flex; align-items:center; gap:28px;}
+  nav.links a{
+    text-decoration:none; color:var(--text-soft); font-size:.9rem; font-weight:500;
+    cursor:pointer; position:relative; padding:6px 0;
+  }
+  nav.links a::after{
+    content:""; position:absolute; inset-inline:0; bottom:-1px; height:2px;
+    background:var(--grad); border-radius:2px; transform:scaleX(0); transition:transform .18s;
+  }
+  nav.links a:hover, nav.links a.active{color:var(--text);}
+  nav.links a:hover::after, nav.links a.active::after{transform:scaleX(1);}
+  .nav-actions{display:flex; align-items:center; gap:10px;}
+  #langToggle{
+    font-family:'IBM Plex Mono',monospace; font-size:.76rem; font-weight:500;
+    background:var(--elev-2); color:var(--text);
+    border:1px solid var(--line-strong); border-radius:8px;
+    padding:9px 16px; cursor:pointer; letter-spacing:.03em;
+  }
+  #langToggle:hover{border-color:var(--violet); color:#fff;}
+  #menuBtn{display:none; background:var(--elev-2); border:1px solid var(--line-strong); border-radius:8px; width:38px; height:38px; cursor:pointer; align-items:center; justify-content:center;}
+  #menuBtn svg{width:16px;height:16px; color:var(--text);}
+
+  @media (max-width: 780px){
+    nav.links{
+      position:absolute; inset-inline:0; top:100%;
+      background:rgba(10,13,28,.97); backdrop-filter:blur(14px); border-bottom:1px solid var(--line-strong);
+      flex-direction:column; align-items:stretch; gap:0;
+      display:none; padding:8px 24px 14px;
+    }
+    nav.links.open{display:flex;}
+    nav.links a{padding:13px 0; border-bottom:1px solid var(--line);}
+    nav.links a::after{display:none;}
+    nav.links a:last-child{border-bottom:none;}
+    #menuBtn{display:flex;}
+  }
+
+  /* HERO */
+  .hero{padding:0; position:relative; overflow:hidden;}
+  .hero::before{
+    content:""; position:absolute; z-index:0; pointer-events:none;
+    inset:-10% -10% auto -10%; height:560px;
+    background:radial-gradient(closest-side, rgba(139,108,246,.32), transparent 72%);
+    filter:blur(50px);
+  }
+  .hero::after{
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to bottom, black, transparent 80%);
+    mask-image:linear-gradient(to bottom, black, transparent 80%);
+  }
+  .hero-grid{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
+    padding:64px 0 60px;
+  }
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:.76rem;
+    color:var(--teal); margin-bottom:22px; letter-spacing:.04em;
+    background:rgba(47,224,200,.08); border:1px solid rgba(47,224,200,.25); border-radius:999px; padding:6px 14px;
+  }
+  .hero h1{font-size:clamp(2.2rem, 5vw, 3.6rem); max-width:15ch; line-height:1.14;}
+  .hero .lede{font-size:1.08rem; max-width:50ch; margin-top:16px; color:var(--text-soft);}
+  .hero-cta{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 24px; border-radius:10px; text-decoration:none;
+    font-size:.92rem; cursor:pointer; font-weight:600; border:1px solid transparent;
+  }
+  .btn-grad{background:var(--grad); color:#fff; box-shadow:0 8px 24px -8px rgba(139,108,246,.55);}
+  .btn-grad:hover{filter:brightness(1.1);}
+  .btn-outline{background:rgba(255,255,255,.03); color:var(--text); border-color:var(--line-strong);}
+  .btn-outline:hover{border-color:var(--violet); color:#fff;}
+
+  .stat-row{display:flex; flex-wrap:wrap; margin-top:48px; border-top:1px solid var(--line); padding-top:28px;}
+  .stat-block{flex:1 1 130px; padding-inline-end:26px; margin-inline-end:26px; border-inline-end:1px solid var(--line); margin-bottom:14px;}
+  .stat-block:last-child{border-inline-end:none; margin-inline-end:0; padding-inline-end:0;}
+  .stat-block .num{
+    font-family:'IBM Plex Mono',monospace; font-size:1.4rem; display:block; margin-bottom:4px;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .stat-block .label{font-size:.76rem; color:var(--text-faint); max-width:15ch; display:block;}
+  @media (max-width:640px){
+    .stat-block{flex:1 1 44%; border-inline-end:none; margin-inline-end:0; padding-inline-end:0;}
+  }
+
+  /* hero visual — glowing orb + floating stats */
+  .hero-visual{position:relative; z-index:1; display:flex; align-items:center; justify-content:center; min-height:400px;}
+  .orb{position:relative; width:260px; height:260px;}
+  .orb-core{
+    position:absolute; inset:55px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff, var(--violet) 42%, var(--blue) 78%, transparent 100%);
+    box-shadow:0 0 90px 22px rgba(139,108,246,.4), 0 0 170px 70px rgba(76,142,255,.2);
+  }
+  .orb-ring{position:absolute; inset:0; border:1px solid rgba(255,255,255,.14); border-radius:50%;}
+  .orb-ring.ring-2{inset:-34px; border-color:rgba(255,255,255,.07); animation:spin 34s linear infinite;}
+  .orb-ring.ring-2::before{
+    content:""; position:absolute; top:-3px; inset-inline-start:50%; width:6px; height:6px; margin-inline-start:-3px;
+    border-radius:50%; background:var(--teal); box-shadow:0 0 10px 2px var(--teal);
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* SECTION generic */
+  section{padding:88px 0;}
+  .section-head{margin-bottom:44px;}
+  .section-tag{font-family:'IBM Plex Mono',monospace; color:var(--teal); font-size:.78rem; display:block; margin-bottom:12px; letter-spacing:.03em;}
+  .section-head h2{font-size:1.8rem; margin-bottom:0;}
+
+  /* ABOUT */
+  .about-grid{display:grid; grid-template-columns:1.2fr 1fr; gap:32px;}
+  @media (max-width:780px){.about-grid{grid-template-columns:1fr;}}
+  .about-grid > div:first-child p{font-size:1.08rem;}
+  .card{
+    border:1px solid var(--line); border-radius:var(--radius); padding:28px 30px;
+    background:var(--elev); position:relative;
+  }
+  .edu-card::before{content:""; position:absolute; inset-inline-start:0; top:24px; bottom:24px; width:3px; background:var(--grad); border-radius:3px;}
+  .edu-card{padding-inline-start:34px;}
+  .edu-card h3{font-size:1.08rem; margin-bottom:2px;}
+  .edu-card .school{color:var(--teal); font-size:.86rem; margin-bottom:14px; display:block; font-weight:500;}
+  .course-list{display:flex; flex-wrap:wrap; gap:8px; padding:0; margin:16px 0 0; list-style:none;}
+  .course-list li{
+    font-size:.78rem; color:var(--text-soft);
+    background:var(--elev-2); border-radius:999px; padding:6px 14px; border:1px solid var(--line);
+  }
+
+  /* SKILLS */
+  .skills-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  @media (max-width:640px){.skills-grid{grid-template-columns:1fr;}}
+  .skill-group h3{font-size:.8rem; font-family:'IBM Plex Mono',monospace; color:var(--text-faint); font-weight:400; margin-bottom:18px; letter-spacing:.03em;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{
+    background:var(--elev); border:1px solid var(--line); border-radius:999px;
+    padding:10px 18px; font-size:.9rem; font-weight:500; color:var(--text);
+  }
+  .chip b{color:var(--teal); font-weight:600;}
+
+  /* VOLUNTEER — timeline */
+  .timeline{position:relative; padding-inline-start:32px;}
+  .timeline::before{content:""; position:absolute; inset-inline-start:5px; top:6px; bottom:6px; width:1px; background:var(--line-strong);}
+  .tl-item{position:relative; padding-bottom:44px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:""; position:absolute; inset-inline-start:-32px; top:4px;
+    width:11px; height:11px; border-radius:50%; background:var(--bg); border:2px solid var(--violet); box-shadow:0 0 12px rgba(139,108,246,.6);
+  }
+  .tl-item .when{font-family:'IBM Plex Mono',monospace; color:var(--teal); font-size:.82rem; margin-bottom:8px; display:block;}
+  .tl-item h3{font-size:1.05rem; margin-bottom:10px;}
+  .tl-item ul{margin:0; padding-inline-start:20px; color:var(--text-soft);}
+  .tl-item li{margin-bottom:5px;}
+
+  /* PROJECTS grid */
+  .proj-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:900px){.proj-grid{grid-template-columns:1fr;}}
+  .proj-card{
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--elev);
+    padding:26px 24px 24px; cursor:pointer; text-decoration:none; color:var(--text);
+    display:flex; flex-direction:column; gap:14px; position:relative; overflow:hidden;
+    transition:box-shadow .2s, transform .2s, border-color .2s;
+  }
+  .proj-card::before{content:""; position:absolute; inset-inline-start:0; top:0; bottom:0; width:3px; background:var(--accent, var(--violet));}
+  .proj-card:hover{transform:translateY(-4px); border-color:rgba(139,108,246,.5); box-shadow:0 20px 50px -20px rgba(139,108,246,.35);}
+  .proj-top{display:flex; align-items:center; justify-content:space-between;}
+  .proj-index{font-family:'IBM Plex Mono',monospace; font-size:.76rem; color:var(--text-faint);}
+  .proj-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem;
+    color:var(--teal); background:rgba(47,224,200,.08); border-radius:999px; padding:5px 12px; border:1px solid rgba(47,224,200,.2);
+  }
+  .proj-card h3{font-size:1.12rem;}
+  .proj-card p{font-size:.9rem; margin-bottom:0; flex-grow:1;}
+  .proj-more{font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--text); display:flex; align-items:center; gap:6px; font-weight:500;}
+  html[dir="rtl"] .proj-more .arrow{transform:scaleX(-1);}
+
+  /* CONTACT */
+  .contact-card{
+    position:relative; overflow:hidden;
+    background:var(--elev); border:1px solid var(--line-strong); border-radius:24px; padding:52px;
+  }
+  .contact-card::before{
+    content:""; position:absolute; inset-inline-end:-120px; top:-120px; width:340px; height:340px; border-radius:50%;
+    background:radial-gradient(closest-side, rgba(139,108,246,.35), transparent 72%); filter:blur(40px); pointer-events:none;
+  }
+  @media (max-width:640px){.contact-card{padding:32px 24px;}}
+  .contact-wrap{position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:28px; align-items:center; justify-content:space-between;}
+  .contact-wrap h2{font-size:1.9rem; max-width:16ch; margin-bottom:8px;}
+  .contact-wrap p{margin-bottom:0;}
+  .contact-email{display:inline-block; margin-top:12px; color:var(--teal); font-size:.85rem; text-decoration:none;}
+  .contact-email:hover{text-decoration:underline;}
+  .contact-actions{display:flex; gap:12px; flex-wrap:wrap;}
+  footer{padding:32px 0; text-align:center; color:var(--text-faint); font-size:.8rem; font-family:'IBM Plex Mono',monospace;}
+
+  /* PROJECT DETAIL PAGE */
+  #view-project{display:none;}
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px; text-decoration:none; color:var(--text-soft);
+    font-family:'IBM Plex Mono',monospace; font-size:.85rem; padding-top:28px; margin-bottom:20px;
+  }
+  html[dir="rtl"] .back-link svg{transform:scaleX(-1);}
+  .back-link:hover{color:var(--teal);}
+  .pd-head h1{font-size:clamp(1.7rem,3.6vw,2.4rem); max-width:24ch; margin-top:16px;}
+  .pd-head .proj-tag{margin-bottom:0;}
+  .pd-meta{display:flex; gap:36px; margin-top:26px; flex-wrap:wrap;}
+  .pd-meta div{font-size:.88rem; color:var(--text-soft);}
+  .pd-meta .label{color:var(--text-faint); font-family:'IBM Plex Mono',monospace; font-size:.72rem; display:block; margin-bottom:5px;}
+  .pd-body{padding:52px 0 88px; display:grid; grid-template-columns:1.7fr 1fr; gap:44px;}
+  @media (max-width:800px){.pd-body{grid-template-columns:1fr;}}
+  .pd-body h2{font-size:1.12rem; margin-top:38px;}
+  .pd-body h2:first-child{margin-top:0;}
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0 6px;}
+  .stat-box{border:1px solid var(--line); border-radius:var(--radius-sm); padding:16px 18px; background:var(--elev);}
+  .stat-box .n{font-family:'IBM Plex Mono',monospace; font-size:1.3rem; display:block; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .stat-box .l{font-size:.78rem; color:var(--text-faint);}
+  .findings{padding:0; margin:0; list-style:none;}
+  .findings li{
+    padding:14px 0 14px 26px; border-top:1px solid var(--line); color:var(--text-soft); font-size:.95rem; position:relative;
+  }
+  .findings li::before{content:"—"; position:absolute; inset-inline-start:0; color:var(--violet);}
+  .findings li:last-child{border-bottom:1px solid var(--line);}
+  .side-card{border:1px solid var(--line); border-radius:var(--radius); padding:24px; background:var(--elev); align-self:start;}
+  .side-card h3{font-size:.8rem; font-family:'IBM Plex Mono',monospace; color:var(--text-faint); font-weight:400; margin-bottom:14px; letter-spacing:.03em;}
+  .tool-list{display:flex; flex-wrap:wrap; gap:8px; padding:0; margin:0 0 26px; list-style:none;}
+  .tool-list li{font-size:.78rem; border-radius:999px; padding:5px 13px; background:var(--elev-2); color:var(--text-soft); border:1px solid var(--line);}
+  .side-card .btn{width:100%; justify-content:center; margin-top:6px;}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#home" class="brand" data-route="home"><span class="dot"></span> <span data-i18n="brandName">لُبنى</span></a>
+    <nav class="links" id="navLinks">
+      <a href="#home" data-route="home" data-i18n="navHome">الرئيسية</a>
+      <a href="#about" data-route="about" data-i18n="navAbout">نبذة</a>
+      <a href="#projects" data-route="projects" data-i18n="navProjects">المشاريع</a>
+      <a href="#skills" data-route="skills" data-i18n="navSkills">المهارات</a>
+      <a href="#contact" data-route="contact" data-i18n="navContact">تواصل</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="langToggle">EN</button>
+      <button id="menuBtn" aria-label="menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="view-home">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow" data-i18n="heroEyebrow">◆ علم البيانات</span>
+          <h1 data-i18n="heroTitle">أُحوّل البيانات إلى قرارات</h1>
+          <p class="lede" data-i18n="heroLede">خريجة علم بيانات، أبني نماذج تنبؤية ولوحات تحليلية تُحوّل مجموعات بيانات معقدة إلى رؤى واضحة تدعم قرارات مبنية على الأدلة.</p>
+          <div class="hero-cta">
+            <a href="#projects" data-route="projects" class="btn btn-grad" data-i18n="heroCtaProjects">استعرض المشاريع</a>
+            <a href="https://github.com/lubnastar" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="heroCtaGithub">GitHub ↗</a>
+          </div>
+          <div class="stat-row">
+            <div class="stat-block">
+              <span class="num mono">03</span>
+              <span class="label" data-i18n="kpiProjects">مشاريع تحليل بيانات</span>
+            </div>
+            <div class="stat-block">
+              <span class="num mono">AR / EN</span>
+              <span class="label" data-i18n="kpiLang">تواصل ثنائي اللغة</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="orb">
+            <div class="orb-ring"></div>
+            <div class="orb-ring ring-2"></div>
+            <div class="orb-core"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="about">
+    <div class="section-head">
+      <span class="section-tag mono">01 · Profile</span><h2 data-i18n="aboutTitle">نبذة عني</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p data-i18n="aboutText">خريجة علم بيانات لديّ خبرة قائمة على مشاريع عملية في تحليل البيانات وبناء النماذج التنبؤية. أُحوّل مجموعات البيانات المعقدة إلى رؤى قابلة للتنفيذ تدعم القرارات المبنية على البيانات، مع مهارات تحليلية وحل مشكلات قوية وتواصل فعّال باللغتين العربية والإنجليزية.</p>
+      </div>
+      <div class="card edu-card">
+        <span class="school" data-i18n="eduSchool">جامعة حائل</span>
+        <h3 data-i18n="eduDegree">بكالوريوس علم البيانات</h3>
+        <p style="margin:10px 0 0; font-size:.85rem;" data-i18n="eduCourseLabel">مقررات ذات صلة</p>
+        <ul class="course-list">
+          <li data-i18n="c1">تنقيب البيانات</li>
+          <li data-i18n="c2">الخوارزميات</li>
+          <li data-i18n="c3">تعلم الآلة</li>
+          <li data-i18n="c4">الاحتمالات والإحصاء</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="skills">
+    <div class="section-head">
+      <span class="section-tag mono">02 · Toolkit</span><h2 data-i18n="skillsTitle">المهارات</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3 data-i18n="skillsTechLabel">تقنية</h3>
+        <div class="chip-row">
+          <span class="chip">Python</span>
+          <span class="chip">SQL</span>
+          <span class="chip" data-i18n="skillML">تعلم الآلة</span>
+          <span class="chip" data-i18n="skillDA">تحليل البيانات</span>
+          <span class="chip" data-i18n="skillViz">تصور البيانات (Power BI)</span>
+          <span class="chip" data-i18n="skillStats">التحليل الإحصائي</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3 data-i18n="skillsLangLabel">اللغات</h3>
+        <div class="chip-row">
+          <span class="chip"><span data-i18n="langAr">العربية</span> — <b data-i18n="native">اللغة الأم</b></span>
+          <span class="chip"><span data-i18n="langEn">الإنجليزية</span> — <b data-i18n="fluent">طلاقة</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="volunteering">
+    <div class="section-head">
+      <span class="section-tag mono">03 · Community</span><h2 data-i18n="volTitle">التطوع</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="when">2023 — 2024</span>
+        <h3 data-i18n="vol1Title">نادي المطورين Google (GDSC) — عضو فريق الإدارة</h3>
+        <ul>
+          <li data-i18n="vol1p1">نظّمت ونسّقت أكثر من 20 ورشة تدريبية، استفاد منها أكثر من 2,900 مشارك.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <span class="when">2025</span>
+        <h3 data-i18n="vol2Title">الجمعية السعودية لعلوم البيانات (SDSA) — عضو متطوعة</h3>
+        <ul>
+          <li data-i18n="vol2p1">حلّلت بيانات الدورات التدريبية ومشاركة المتدربين لاستخراج رؤى ذات معنى.</li>
+          <li data-i18n="vol2p2">طوّرت لوحات تفاعلية لعرض مؤشرات الأداء واتجاهات البرنامج.</li>
+          <li data-i18n="vol2p3">أعددت تقارير تحليلية.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="projects">
+    <div class="section-head">
+      <span class="section-tag mono">04 · Selected work</span><h2 data-i18n="projTitle">المشاريع</h2>
+    </div>
+    <div class="proj-grid">
+
+      <a class="proj-card" style="--accent:#8B6CF6" data-route="project-inventory" href="#project-inventory">
+        <div class="proj-top">
+          <span class="proj-index mono">01</span>
+          <span class="proj-tag" data-i18n="p1tag">مخزون</span>
+        </div>
+        <h3 data-i18n="p1title">تحليل بيانات المخزون</h3>
+        <p data-i18n="p1desc">لوحة تحليل وصفي لحالة المخزون: مراقبة المستويات، تحديد المنتجات المطلوب إعادة طلبها، وتصور مؤشرات الأداء الرئيسية.</p>
+        <span class="proj-more" data-i18n="viewProject">عرض التفاصيل <span class="arrow">←</span></span>
+      </a>
+
+      <a class="proj-card" style="--accent:#4C8EFF" data-route="project-marketing" href="#project-marketing">
+        <div class="proj-top">
+          <span class="proj-index mono">02</span>
+          <span class="proj-tag" data-i18n="p2tag">تسويق</span>
+        </div>
+        <h3 data-i18n="p2title">تحليل بيانات لاستراتيجية التسويق</h3>
+        <p data-i18n="p2desc">تحليل سلوك عملاء التجارة الإلكترونية لتصميم استراتيجيات تسويقية: تقسيم العملاء، وتقييم فعالية العروض، وتحديد مخاطر فقدان العملاء.</p>
+        <span class="proj-more" data-i18n="viewProject">عرض التفاصيل <span class="arrow">←</span></span>
+      </a>
+
+      <a class="proj-card" style="--accent:#2FE0C8" data-route="project-supply" href="#project-supply">
+        <div class="proj-top">
+          <span class="proj-index mono">03</span>
+          <span class="proj-tag" data-i18n="p3tag">سلسلة إمداد</span>
+        </div>
+        <h3 data-i18n="p3title">تحليل مؤشرات أداء سلسلة الإمداد</h3>
+        <p data-i18n="p3desc">قياس أداء الموردين والمستودعات عبر مؤشرات الأداء الرئيسية المستخدمة في إدارة سلاسل الإمداد.</p>
+        <span class="proj-more" data-i18n="viewProject">عرض التفاصيل <span class="arrow">←</span></span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="wrap" id="contact">
+    <div class="contact-card">
+      <div class="contact-wrap">
+        <div>
+          <h2 data-i18n="contactTitle">لنتحدث عن البيانات</h2>
+          <p data-i18n="heroLede2">دائمًا مستعدة لمناقشة فرص أو مشاريع تحليل بيانات جديدة.</p>
+          <a class="contact-email mono" href="mailto:lubna.altuwaiher@gmail.com">lubna.altuwaiher@gmail.com</a>
+        </div>
+        <div class="contact-actions">
+          <a href="mailto:lubna.altuwaiher@gmail.com" class="btn btn-grad" data-i18n="contactEmailCta">تواصل معي</a>
+          <a href="resume.pdf" download class="btn btn-outline" data-i18n="contactCvCta">تحميل السيرة الذاتية</a>
+          <a href="https://github.com/lubnastar" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="contactCta">زيارة GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="view-project">
+  <div class="wrap pd-head">
+    <a href="#projects" data-route="projects" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span data-i18n="backToProjects">الرجوع إلى المشاريع</span>
+    </a>
+    <div id="pdHead"></div>
+  </div>
+  <div class="pd-body wrap" id="pdBody"></div>
+</div>
+
+<footer>
+  <span data-i18n="footerText">© 2026 لُبنى. جميع الحقوق محفوظة.</span>
+</footer>
+
+<script>
+const translations = {
+  ar: {
+    brandName:"لُبنى", navHome:"الرئيسية", navAbout:"نبذة", navProjects:"المشاريع", navSkills:"المهارات", navContact:"تواصل",
+    heroEyebrow:"◆ علم البيانات", heroTitle:"أُحوّل البيانات إلى قرارات",
+    heroLede:"خريجة علم بيانات، أبني نماذج تنبؤية ولوحات تحليلية تُحوّل مجموعات بيانات معقدة إلى رؤى واضحة تدعم قرارات مبنية على الأدلة.",
+    heroLede2:"دائمًا مستعدة لمناقشة فرص أو مشاريع تحليل بيانات جديدة.",
+    heroCtaProjects:"استعرض المشاريع", heroCtaGithub:"GitHub ↗",
+    kpiProjects:"مشاريع تحليل بيانات", kpiWorkshops:"ورشة عمل نُظّمت", kpiParticipants:"مستفيد من الورش", kpiLang:"تواصل ثنائي اللغة",
+    aboutTitle:"نبذة عني",
+    aboutText:"خريجة علم بيانات لديّ خبرة قائمة على مشاريع عملية في تحليل البيانات وبناء النماذج التنبؤية. أُحوّل مجموعات البيانات المعقدة إلى رؤى قابلة للتنفيذ تدعم القرارات المبنية على البيانات، مع مهارات تحليلية وحل مشكلات قوية وتواصل فعّال باللغتين العربية والإنجليزية.",
+    eduSchool:"جامعة حائل", eduDegree:"بكالوريوس علم البيانات", eduCourseLabel:"مقررات ذات صلة",
+    c1:"تنقيب البيانات", c2:"الخوارزميات", c3:"تعلم الآلة", c4:"الاحتمالات والإحصاء",
+    skillsTitle:"المهارات", skillsTechLabel:"تقنية", skillsLangLabel:"اللغات",
+    skillML:"تعلم الآلة", skillDA:"تحليل البيانات", skillViz:"تصور البيانات (Power BI)", skillStats:"التحليل الإحصائي",
+    langAr:"العربية", langEn:"الإنجليزية", native:"اللغة الأم", fluent:"طلاقة",
+    volTitle:"التطوع",
+    vol1Title:"نادي المطورين Google (GDSC) — عضو فريق الإدارة",
+    vol1p1:"نظّمت ونسّقت أكثر من 20 ورشة تدريبية، استفاد منها أكثر من 2,900 مشارك.",
+    vol2Title:"الجمعية السعودية لعلوم البيانات (SDSA) — عضو متطوعة",
+    vol2p1:"حلّلت بيانات الدورات التدريبية ومشاركة المتدربين لاستخراج رؤى ذات معنى.",
+    vol2p2:"طوّرت لوحات تفاعلية لعرض مؤشرات الأداء واتجاهات البرنامج.",
+    vol2p3:"أعددت تقارير تحليلية.",
+    projTitle:"المشاريع",
+    p1tag:"مخزون", p1title:"تحليل بيانات المخزون",
+    p1desc:"لوحة تحليل وصفي لحالة المخزون: مراقبة المستويات، تحديد المنتجات المطلوب إعادة طلبها، وتصور مؤشرات الأداء الرئيسية.",
+    p2tag:"تسويق", p2title:"تحليل بيانات لاستراتيجية التسويق",
+    p2desc:"تحليل سلوك عملاء التجارة الإلكترونية لتصميم استراتيجيات تسويقية: تقسيم العملاء، وتقييم فعالية العروض، وتحديد مخاطر فقدان العملاء.",
+    p3tag:"سلسلة إمداد", p3title:"تحليل مؤشرات أداء سلسلة الإمداد",
+    p3desc:"قياس أداء الموردين والمستودعات عبر مؤشرات الأداء الرئيسية المستخدمة في إدارة سلاسل الإمداد.",
+    viewProject:"عرض التفاصيل ←",
+    contactTitle:"لنتحدث عن البيانات", contactCta:"زيارة GitHub ↗", contactEmailCta:"تواصل معي", contactCvCta:"تحميل السيرة الذاتية",
+    backToProjects:"الرجوع إلى المشاريع",
+    footerText:"© 2026 لُبنى. جميع الحقوق محفوظة.",
+    overview:"نظرة عامة", keyFindings:"أبرز النتائج", tools:"الأدوات المستخدمة", viewRepo:"عرض المستودع على GitHub ↗",
+    dataset:"مصدر البيانات", type:"نوع المشروع",
+    p1_overview:"يركّز هذا المشروع على استخدام التحليل الوصفي لتقديم نظرة شاملة على حالة المخزون. الهدف الرئيسي هو مراقبة مستويات المخزون، وتحديد المنتجات التي تحتاج إلى إعادة الطلب، وتصور أهم رؤى المخزون عبر رسوم بيانية تفاعلية ومؤشرات أداء رئيسية.",
+    p1_dataset:"بيانات صناعية اصطناعية تُحاكي عمليات سلسلة إمداد واقعية، تشمل تفاصيل المنتجات ومعلومات الموردين وكميات المخزون والتكاليف ونقاط إعادة الطلب.",
+    p1_f1:"يضم المخزون 23 منتجًا فريدًا بقيمة إجمالية تبلغ 93,857,586.03.",
+    p1_f2:"إجمالي الكمية في المخزون 121,767 وحدة.",
+    p1_f3:"أقل المنتجات مخزونًا: 'لوحة مفاتيح ميكانيكية' (نفدت)، وقفازات مقاومة للقطع (2 وحدة)، ودباسة ثقيلة (5 وحدات).",
+    p1_f4:"مورّد 'Middle East Trading' يوفّر أكبر عدد من المنتجات (100 منتج).",
+    p1_f5:"متوسط مهلة التوريد نحو 25.13 يومًا، بمدى يتراوح بين 3 و46 يومًا.",
+    p1_f6:"39 منتجًا وصلت كمياتها إلى نقطة إعادة الطلب أو أقل منها، ما يستدعي إعادة الطلب.",
+    p2_overview:"يتعمّق هذا المشروع في سلوك عملاء التجارة الإلكترونية لصياغة استراتيجيات تسويقية مبنية على البيانات. من خلال تحليل الخصائص الديموغرافية للعملاء وأنماط الإنفاق ورضاهم وحداثة الشراء، يهدف المشروع إلى تحسين تقسيم العملاء، وتطوير الجهود الترويجية، وتعزيز حملات الاستبقاء.",
+    p2_dataset:"بيانات سلوك عملاء التجارة الإلكترونية من Kaggle، وتشمل الجنس والعمر والمدينة ونوع العضوية والإنفاق الكلي وعدد المشتريات والتقييم وتطبيق الخصم وعدد أيام آخر شراء.",
+    p2_f1:"تقسيم العملاء عبر خوارزمية K-Means باستخدام العمر والإنفاق الكلي وعدد أيام آخر شراء، لتحديد شرائح عملاء مختلفة.",
+    p2_f2:"مقارنة تحليلية بين المعاملات التي تضمّنت خصمًا وتلك التي لم تتضمنه، من حيث الإنفاق وعدد العناصر المشتراة.",
+    p2_f3:"تصنيف العملاء إلى ثلاث فئات حسب حداثة الشراء: آمن، وفي خطر فقدان، وحرِج، مع إجراءات استبقاء مخصصة لكل فئة.",
+    p2_f4:"توصيات عملية لتوجيه حملات التسويق والاستبقاء بناءً على نتائج التحليل.",
+    p3_overview:"يهدف هذا المشروع إلى قياس أداء الموردين والمستودعات من خلال حساب مجموعة من مؤشرات الأداء الرئيسية الشائعة في إدارة سلسلة الإمداد، بما يساعد على فهم العمليات وتحسينها.",
+    p3_dataset:"بيانات سلسلة إمداد مجهّلة ومُصطنعة لحماية الخصوصية والسرية.",
+    p3_f1:"OTIF% (معدل الطلبات المثالية): نسبة الطلبات المسلَّمة في الوقت المحدد وبالكمية الكاملة دون نقص.",
+    p3_f2:"نسبة التسليم في الوقت المحدد، بغض النظر عن اكتمال الكمية.",
+    p3_f3:"نسبة الوحدات التالفة أو المعيبة من إجمالي الوحدات المستلمة.",
+    p3_f4:"تباين مهلة التوريد: متوسط الفرق بين مهلة التوريد الفعلية والموعودة بالأيام.",
+    p3_f5:"تحليل إجمالي التكلفة مجمّعًا حسب المورّد وحسب المستودع.",
+  },
+  en: {
+    brandName:"Lubna", navHome:"Home", navAbout:"About", navProjects:"Projects", navSkills:"Skills", navContact:"Contact",
+    heroEyebrow:"◆ Data Science", heroTitle:"Turning data into decisions.",
+    heroLede:"Data Science graduate building predictive models and analytical dashboards that turn messy datasets into clear, actionable insight.",
+    heroLede2:"Always open to discussing new data analysis opportunities and projects.",
+    heroCtaProjects:"View projects", heroCtaGithub:"GitHub ↗",
+    kpiProjects:"Data analysis projects", kpiWorkshops:"Workshops organized", kpiParticipants:"Workshop participants", kpiLang:"Bilingual — Arabic / English",
+    aboutTitle:"About",
+    aboutText:"Data Science graduate with project-based experience in data analysis and predictive modeling. Experienced in transforming complex datasets into actionable insights to support data-driven decisions, with strong analytical and problem-solving skills and effective communication in both Arabic and English.",
+    eduSchool:"University of Hail", eduDegree:"Bachelor of Data Science", eduCourseLabel:"Relevant coursework",
+    c1:"Data Mining", c2:"Algorithms", c3:"Machine Learning", c4:"Probability & Statistics",
+    skillsTitle:"Skills", skillsTechLabel:"Technical", skillsLangLabel:"Languages",
+    skillML:"Machine Learning", skillDA:"Data Analysis", skillViz:"Data Visualization (Power BI)", skillStats:"Statistical Analysis",
+    langAr:"Arabic", langEn:"English", native:"Native", fluent:"Fluent",
+    volTitle:"Volunteering",
+    vol1Title:"Google Developer Student Club (GDSC) — Management Team Member",
+    vol1p1:"Organized and coordinated 20+ training workshops, benefiting over 2,900 participants.",
+    vol2Title:"Saudi Society for Data Science (SDSA) — Volunteer Member",
+    vol2p1:"Analyzed data from training courses and trainee participation to extract meaningful insights.",
+    vol2p2:"Developed interactive dashboards to visualize performance metrics and program trends.",
+    vol2p3:"Prepared analytical reports.",
+    projTitle:"Projects",
+    p1tag:"Inventory", p1title:"Inventory Data Analysis",
+    p1desc:"A descriptive-analytics dashboard for inventory status: monitoring stock levels, flagging products for reorder, and visualizing key metrics.",
+    p2tag:"Marketing", p2title:"Data Analysis for Marketing Strategy",
+    p2desc:"E-commerce customer behavior analysis to shape marketing strategy: customer segmentation, promotion effectiveness, and churn-risk identification.",
+    p3tag:"Supply chain", p3title:"Supply Chain KPIs Analysis",
+    p3desc:"Measuring supplier and warehouse performance through the key performance indicators used across supply chain management.",
+    viewProject:"View details →",
+    contactTitle:"Let's talk about data", contactCta:"Visit GitHub ↗", contactEmailCta:"Contact me", contactCvCta:"Download CV",
+    backToProjects:"Back to projects",
+    footerText:"© 2026 Lubna. All rights reserved.",
+    overview:"Overview", keyFindings:"Key findings", tools:"Tools used", viewRepo:"View repository on GitHub ↗",
+    dataset:"Data source", type:"Project type",
+    p1_overview:"This project focuses on using descriptive analytics to provide a comprehensive overview of inventory status. The main goal is to monitor stock levels, identify products that require reordering, and visualize crucial inventory insights through interactive charts and key performance indicators.",
+    p1_dataset:"An industrial synthetic dataset simulating real-world supply chain operations — product details, supplier info, stock quantities, costs, and reorder points.",
+    p1_f1:"23 unique products in inventory, with a total inventory value of 93,857,586.03.",
+    p1_f2:"Total quantity in stock: 121,767 units.",
+    p1_f3:"Lowest-stock products include 'Mechanical Keyboard' (out of stock), 'Cut-Resistant Safety Gloves' (2 units), and 'Heavy-Duty Stapler' (5 units).",
+    p1_f4:"'Middle East Trading' is the top supplier by product count, providing 100 products.",
+    p1_f5:"Average supplier lead time is ~25.13 days, ranging from 3 to 46 days.",
+    p1_f6:"39 products are at or below their reorder point and need restocking.",
+    p2_overview:"This project delves into e-commerce customer behavior to craft data-driven marketing strategies. By analyzing customer demographics, spending patterns, satisfaction, and purchase recency, it aims to optimize segmentation, refine promotions, and enhance retention campaigns.",
+    p2_dataset:"E-commerce Customer Behavior dataset (Kaggle) — gender, age, city, membership type, total spend, items purchased, average rating, discount applied, and days since last purchase.",
+    p2_f1:"K-Means clustering on age, total spend, and purchase recency to identify distinct customer segments.",
+    p2_f2:"Comparative analysis of spend and items purchased between discounted and non-discounted transactions.",
+    p2_f3:"Customers categorized as Safe, Churn Risk, or Critical, each mapped to a specific retention action.",
+    p2_f4:"Practical recommendations to guide targeted marketing and retention campaigns.",
+    p3_overview:"This project measures supplier and warehouse performance by calculating a set of key performance indicators commonly used in supply chain management, helping to understand and optimize operations.",
+    p3_dataset:"Anonymized, synthesized supply chain dataset created to protect privacy and confidentiality.",
+    p3_f1:"OTIF% (Perfect Order Rate): orders delivered on time and in full, without shortage.",
+    p3_f2:"On-Time Delivery %: orders delivered on time regardless of quantity completeness.",
+    p3_f3:"Defective Rate %: share of damaged or defective units out of total units received.",
+    p3_f4:"Lead Time Variance: average gap between actual and promised lead time, in days.",
+    p3_f5:"Total cost analysis, aggregated by supplier and by warehouse.",
+  }
+};
+
+const projects = {
+  "project-inventory": {
+    tagKey:"p1tag", titleKey:"p1title", repo:"https://github.com/lubnastar/Inventory-Data-Analysis",
+    stats:[["23","products"],["121,767","units in stock"],["25.13","avg lead time (days)"],["39","need reorder"]],
+    overviewKey:"p1_overview", datasetKey:"p1_dataset",
+    findings:["p1_f1","p1_f2","p1_f3","p1_f4","p1_f5","p1_f6"],
+    tools:["pandas","numpy","matplotlib","seaborn","plotly"]
+  },
+  "project-marketing": {
+    tagKey:"p2tag", titleKey:"p2title", repo:"https://github.com/lubnastar/Data-analysis-for-marketing-strategy",
+    stats:null,
+    overviewKey:"p2_overview", datasetKey:"p2_dataset",
+    findings:["p2_f1","p2_f2","p2_f3","p2_f4"],
+    tools:["Python","pandas","scikit-learn","matplotlib"]
+  },
+  "project-supply": {
+    tagKey:"p3tag", titleKey:"p3title", repo:"https://github.com/lubnastar/Supply-Chain-KPIs-Analysis",
+    stats:null,
+    overviewKey:"p3_overview", datasetKey:"p3_dataset",
+    findings:["p3_f1","p3_f2","p3_f3","p3_f4","p3_f5"],
+    tools:["Python","pandas"]
+  }
+};
+
+let currentLang = 'ar';
+
+function t(key){ return translations[currentLang][key] || key; }
+
+function applyTranslations(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(translations[currentLang][key]) el.textContent = translations[currentLang][key];
+  });
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('langToggle').textContent = currentLang === 'ar' ? 'EN' : 'AR';
+  renderProjectIfActive();
+}
+
+function renderProjectIfActive(){
+  const hash = location.hash.replace('#','') || 'home';
+  if(projects[hash]) renderProject(hash);
+}
+
+function renderProject(key){
+  const p = projects[key];
+  const head = document.getElementById('pdHead');
+  const body = document.getElementById('pdBody');
+
+  head.innerHTML = `
+    <span class="proj-tag">${t(p.tagKey)}</span>
+    <h1>${t(p.titleKey)}</h1>
+    <div class="pd-meta">
+      <div><span class="label">${t('type')}</span>Jupyter Notebook</div>
+      <div><span class="label">${t('dataset')}</span>${t(p.datasetKey).slice(0,60)}…</div>
+    </div>
+  `;
+
+  const statsHtml = p.stats ? `<div class="stat-grid">${p.stats.map(s=>`<div class="stat-box"><span class="n mono">${s[0]}</span><span class="l">${s[1]}</span></div>`).join('')}</div>` : '';
+
+  body.innerHTML = `
+    <div>
+      <h2>${t('overview')}</h2>
+      <p>${t(p.overviewKey)}</p>
+      ${statsHtml}
+      <h2>${t('keyFindings')}</h2>
+      <ul class="findings">${p.findings.map(f=>`<li>${t(f)}</li>`).join('')}</ul>
+    </div>
+    <div class="side-card">
+      <h3>${t('dataset')}</h3>
+      <p style="font-size:.88rem;">${t(p.datasetKey)}</p>
+      <h3>${t('tools')}</h3>
+      <ul class="tool-list">${p.tools.map(tool=>`<li>${tool}</li>`).join('')}</ul>
+      <a class="btn btn-grad" href="${p.repo}" target="_blank" rel="noopener">${t('viewRepo')}</a>
+    </div>
+  `;
+}
+
+function scrollToHashTarget(hash, smooth){
+  if(hash === 'home'){
+    window.scrollTo({top:0, behavior: smooth ? 'smooth' : 'instant'});
+  } else {
+    const target = document.getElementById(hash);
+    if(target) target.scrollIntoView({behavior: smooth ? 'smooth' : 'instant', block:'start'});
+  }
+}
+
+function route(){
+  const hash = location.hash.replace('#','') || 'home';
+  const home = document.getElementById('view-home');
+  const proj = document.getElementById('view-project');
+
+  if(projects[hash]){
+    home.style.display = 'none';
+    proj.style.display = 'block';
+    renderProject(hash);
+    window.scrollTo({top:0, behavior:'instant'});
+  } else {
+    home.style.display = 'block';
+    proj.style.display = 'none';
+    scrollToHashTarget(hash, true);
+  }
+
+  document.querySelectorAll('nav.links a').forEach(a=>{
+    a.classList.toggle('active', a.dataset.route === hash || (hash==='home' && a.dataset.route==='home'));
+  });
+
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+window.addEventListener('hashchange', route);
+document.getElementById('langToggle').addEventListener('click', ()=>{
+  currentLang = currentLang === 'ar' ? 'en' : 'ar';
+  applyTranslations();
+});
+document.getElementById('menuBtn').addEventListener('click', ()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+applyTranslations();
+route();
+
+window.addEventListener('load', ()=>{
+  const hash = location.hash.replace('#','') || 'home';
+  if(hash !== 'home' && !projects[hash]) scrollToHashTarget(hash, false);
+});
+</script>
+</body>
+</html>
